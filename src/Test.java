@@ -7,7 +7,10 @@ public class Test {
         int[] tabell = Tabell.randPerm(31);
         System.out.println(Arrays.toString(tabell));
         Binaertre bt = new Binaertre(tabell);
-        System.out.println("bt inneholder 10: " + bt.inneholderVerdi(10));
-        System.out.println("bt inneholder 22: " + bt.inneholderVerdi(22));
+        int [] sortertTabell = bt.inOrdenTabell();
+        System.out.println(Arrays.toString(sortertTabell));
+
+        System.out.println(bt.inneholderVerdi(1));
+        System.out.println(bt.inneholderVerdi(100));
     }
 }

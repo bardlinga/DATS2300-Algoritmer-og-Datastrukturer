@@ -1,5 +1,8 @@
 package hjelpeklasser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Binaertre {
 
     Node root;
@@ -48,18 +51,26 @@ public class Binaertre {
         return inneholderVerdiRekursiv(root, verdi);
     }
 
-    // stjelt for test --------------------------------------------------
+    // traverseringsmetodar ---------------------------------------------------
 
-    private void traverseInOrder(Node node) {
+    private void inOrdenRekursiv(Node node, List<Integer> tempTabell){
         if (node != null) {
-            traverseInOrder(node.vBarn);
-            System.out.print(" " + node.verdi);
-            traverseInOrder(node.hBarn);
+            inOrdenRekursiv(node.vBarn, tempTabell);
+            tempTabell.add(node.verdi);
+            inOrdenRekursiv(node.hBarn, tempTabell);
         }
     }
 
-    public void traverseInOrder(){
-        traverseInOrder(root);
+    public int[] inOrdenTabell(){
+        List<Integer> tempTabell = new ArrayList<>();
+
+        inOrdenRekursiv(root, tempTabell);
+
+        int [] tabell = new int [tempTabell.size()];
+        for (int i = 0; i < tempTabell.size(); i++){
+            tabell[i] = tempTabell.get(i);
+        }
+        return tabell;
     }
 
     // konstruktørar ----------------------------------------------------------
@@ -71,8 +82,9 @@ public class Binaertre {
             add(verdi);
         }
     }
-
 }
+
+// nodeklassen ----------------------------------------------------------------
 
 class Node {
     int verdi;
