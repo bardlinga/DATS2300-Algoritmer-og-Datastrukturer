@@ -73,6 +73,29 @@ public class Binaertre {
         return tabell;
     }
 
+    // arrays fra nivå --------------------------------------------------------
+
+    void testRek (Node node, int gen, int n, int[][] tabell) {
+        if (node != null){
+            tabell[gen][n] = node.vBarn.verdi;
+            tabell[gen][n+1] = node.hBarn.verdi;
+        }
+    }
+
+    void test () {
+        int antallGen = (int)(Math.log( getSize() ) / Math.log(2));
+        int [][] tabell = new int[antallGen][];
+
+    }
+
+    // hacky getSize metode ---------------------------------------------------
+
+    public int getSize(){
+        List<Integer> tempTabell = new ArrayList<>();
+        inOrdenRekursiv(root, tempTabell);
+        return tempTabell.size();
+    }
+
     // konstruktørar ----------------------------------------------------------
 
     public Binaertre(){}
