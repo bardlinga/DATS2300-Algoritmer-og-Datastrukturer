@@ -1,6 +1,7 @@
 package hjelpeklasser;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class Tabell {
@@ -232,13 +233,77 @@ public class Tabell {
         return -1;
     }
 
-    public static int lineærsøk(int[] a, int verdi) // copypaste fra pensum
+    public static int lineærsøk(int[] a, int verdi, int fra, int til) // copypaste fra pensum
     {
-        if (a.length == 0 || verdi > a[a.length-1])
-            return -(a.length + 1);  // verdi er større enn den største
+        til --;
+        if (fra < 0 || til >= a.length || fra > til) {
+            throw new IllegalArgumentException("Ugyldig intervall!");
+        }
+        if (verdi > a[til])
+            return -(til + 2);  // verdi er større enn den største, vaktpost
 
-        int i = 0; for( ; a[i] < verdi; i++);  // siste verdi er vaktpost
+        int i = fra;
+        while (a[i] < verdi) {
+            i++;
+        }
 
-        return verdi == a[i] ? i : -(i + 1);   // sjekker innholdet i a[i]
+        if (verdi == a[i]) {
+            return i; // returnerer indeks til søkeverdi dersom fins
+        } else {
+            return -(i + 1); // returnerer negativt tall, beskriver innsettingspunkt
+        }
+    }
+
+    public static int lineærsøk(int[] a, int verdi) {
+        return lineærsøk(a, verdi, 0, a.length);
+    }
+
+    // TODO utvid lineærsøk med hoppesøk, kvadratrotsøk og intervallsøk ref 1.3.5 oppg
+
+    public static int binærsøk(int [] tabell, int verdi, int fra, int til) {
+
+        fratilKontroll(tabell.length, fra, til);
+
+        int v = fra;
+        int h = til - 1;
+
+        while (v <= h){
+            int m = (v + h) / 2;
+            int mVerdi = tabell [m];
+
+            if (verdi > mVerdi){
+                v = m + 1;
+            } else if (verdi < mVerdi) {
+                h = m - 1;
+            } else {
+                return m; // fant verdi når verdi == mVerdi, returnerer indeks
+            }
+        }
+        return -(v + 1); // returnerer relativt innsettingspunkt ved ikkje funnen
+    }
+
+    public static int binærsøk(int [] tabell, int verdi){
+        return binærsøk(tabell, verdi, 0, tabell.length);
+    }
+
+    // fratilkontroll ---------------------------------------------------------------
+
+    public static void fratilKontroll(int tablengde, int fra, int til)
+    {
+        if (fra < 0)                                  // fra er negativ
+            throw new ArrayIndexOutOfBoundsException
+                    ("fra(" + fra + ") er negativ!");
+
+        if (til > tablengde)                          // til er utenfor tabellen
+            throw new ArrayIndexOutOfBoundsException
+                    ("til(" + til + ") > tablengde(" + tablengde + ")");
+
+        if (fra > til)                                // fra er større enn til
+            throw new IllegalArgumentException
+                    ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
+
+        if (fra == til)
+            throw new NoSuchElementException
+                    ("fra(" + fra + ") = til(" + til + ") - tomt tabellintervall!");
     }
 }
