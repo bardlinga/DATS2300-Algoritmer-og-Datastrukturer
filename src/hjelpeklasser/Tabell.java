@@ -222,6 +222,26 @@ public class Tabell {
         }
     }
 
+    public static void quicksort(int[] a, int fra, int til){
+        if (til-fra < 2) return;
+        int v = fra;
+        int h = til - 1;
+        bytt(a, h-(h-v)/2, h); // setter pivotelement som siste element
+        int pivot = a[h];
+        while (v < h){
+            while (v < h && a[v] <= pivot) v++;
+            while (v < h && a[h] >= pivot) h--;
+            if (v < h) bytt(a, v, h);
+        }
+        if (h != til-1) bytt(a,h,til-1);
+        quicksort(a,fra,h);
+        quicksort(a,h+1,til);
+    }
+
+    public static void quicksort(int[] a){
+        quicksort(a, 0, a.length);
+    }
+
     // søkemetodar ------------------------------------------------------------
 
     public static int usortertsøk(int[] tabell, int verdi){
