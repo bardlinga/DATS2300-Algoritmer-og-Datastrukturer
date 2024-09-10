@@ -7,7 +7,7 @@ public class Test {
     }
 
     private static void quicksortTest(){
-        int[] a = Tabell.randPerm(19);
+        int[] a = Tabell.randPerm(20);
         System.out.println(Arrays.toString(a));
         Tabell.quicksort(a);
         System.out.println(Arrays.toString(a));

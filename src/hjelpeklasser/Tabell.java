@@ -229,7 +229,7 @@ public class Tabell {
         bytt(a, h-(h-v)/2, h); // setter pivotelement som siste element
         int pivot = a[h];
         while (v < h){
-            while (v < h && a[v] <= pivot) v++;
+            while (v < h && a[v] < pivot) v++;
             while (v < h && a[h] >= pivot) h--;
             if (v < h) bytt(a, v, h);
         }
