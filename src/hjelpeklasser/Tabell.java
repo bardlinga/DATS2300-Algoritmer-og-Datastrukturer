@@ -8,7 +8,7 @@ public class Tabell {
 
     private Tabell() {}
 
-    // bytt -------------------------------------------------------------------
+    // bytt ------------------------------------------------------------------------------------------------------------
 
     public static void bytt(int[] tabell, int i, int j){
         int temp = tabell[i];
@@ -22,7 +22,7 @@ public class Tabell {
         c[j] = temp;
     }
 
-    // lag permutasjonar ----------------------------------------------------------
+    // lag permutasjonar -----------------------------------------------------------------------------------------------
 
     public static int[] randPerm(int n)  // en effektiv versjon
     {
@@ -49,7 +49,7 @@ public class Tabell {
         }
     }
 
-    // maks -------------------------------------------------------------------
+    // maks ------------------------------------------------------------------------------------------------------------
 
     public static int maks(int[] a, int fra, int til) {
         if (fra < 0 || til > a.length || fra >= til) {
@@ -74,7 +74,7 @@ public class Tabell {
         return maks(a,0,a.length);     // kaller metoden over
     }
 
-    // min --------------------------------------------------------------------
+    // min -------------------------------------------------------------------------------------------------------------
 
     public static int min(int[] a, int fra, int til) {
         if (fra < 0 || til > a.length || fra >= til) {
@@ -99,7 +99,7 @@ public class Tabell {
         return min(a,0,a.length);     // kaller metoden over
     }
 
-    // nestMaks og nestMin ----------------------------------------------------
+    // nestMaks og nestMin ---------------------------------------------------------------------------------------------
 
     public static int[] nestMaks(int[] tabell) {
         int n = tabell.length;
@@ -163,7 +163,7 @@ public class Tabell {
         return new int[] {min, nestMin};
     }
 
-    // telle inversjonar ---------------------------------------------------------
+    // telle inversjonar -----------------------------------------------------------------------------------------------
 
     public static int inversjoner(int[] tabell){
         int antall = 0;
@@ -186,7 +186,7 @@ public class Tabell {
         return true;
     }
 
-    // sortering --------------------------------------------------------------
+    // sortering -------------------------------------------------------------------------------------------------------
 
     public static int boble(int[] tabell){
         int antall = 0; // antal ombyttingar
@@ -242,7 +242,7 @@ public class Tabell {
         quicksort(a, 0, a.length);
     }
 
-    // søkemetodar ------------------------------------------------------------
+    // søkemetodar -----------------------------------------------------------------------------------------------------
 
     public static int usortertsøk(int[] tabell, int verdi){
         for (int i = 0; i < tabell.length; i++){
@@ -306,7 +306,7 @@ public class Tabell {
         return binærsøk(tabell, verdi, 0, tabell.length);
     }
 
-    // fratilkontroll ---------------------------------------------------------------
+    // fratilkontroll --------------------------------------------------------------------------------------------------
 
     public static void fratilKontroll(int tablengde, int fra, int til)
     {
@@ -325,5 +325,59 @@ public class Tabell {
         if (fra == til)
             throw new NoSuchElementException
                     ("fra(" + fra + ") = til(" + til + ") - tomt tabellintervall!");
+    }
+
+    // programkode 1.4.2 b) generisk maks ------------------------------------------------------------------------------
+
+    public static <T extends Comparable<? super T>> int maks(T[] a)
+    {
+        int m = 0;                     // indeks til største verdi
+        T maksverdi = a[0];            // største verdi
+
+        for (int i = 1; i < a.length; i++) if (a[i].compareTo(maksverdi) > 0)
+        {
+            maksverdi = a[i];  // største verdi oppdateres
+            m = i;             // indeks til største verdi oppdaters
+        }
+        return m;  // returnerer posisjonen til største verdi
+    } // maks
+
+    // programkode 1.4.2 e) generisk innsettingssortering --------------------------------------------------------------
+
+    public static <T extends Comparable<? super T>> void innsettingssortering(T[] a)
+    {
+        for (int i = 1; i < a.length; i++)  // starter med i = 1
+        {
+            T verdi = a[i];        // verdi er et tabellelemnet
+            int  j = i - 1;        // j er en indeks
+            // sammenligner og forskyver:
+            for (; j >= 0 && verdi.compareTo(a[j]) < 0 ; j--) a[j+1] = a[j];
+
+            a[j + 1] = verdi;      // j + 1 er rett sortert plass
+        }
+    }
+
+    // programkode 1.4.3 d) generisk bytt og randperm ------------------------------------------------------------------
+
+    public static void bytt(Object[] a, int i, int j)
+    {
+        Object temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+
+    public static Integer[] randPermInteger(int n)
+    {
+        Integer[] a = new Integer[n];               // en Integer-tabell
+        Arrays.setAll(a, i -> i + 1);               // tallene fra 1 til n
+
+        Random r = new Random();   // hentes fra  java.util
+
+        for (int k = n - 1; k > 0; k--)
+        {
+            int i = r.nextInt(k+1);  // tilfeldig tall fra [0,k]
+            bytt(a,k,i);             // bytter om
+        }
+        return a;  // tabellen med permutasjonen returneres
     }
 }
